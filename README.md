@@ -1,2 +1,2 @@
-# 2025-Codes-POTD-
+# 2025-Codes-POTD
 going to become the best....
