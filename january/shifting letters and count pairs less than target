@@ -1,0 +1,68 @@
+##################### GFG ###################
+
+class Solution {
+    int countPairs(int arr[], int target) {
+        Arrays.sort(arr);
+        int count = 0;
+        int i = 0,j = arr.length - 1;
+        while(i < j){
+            int t = arr[i] + arr[j];
+            if(t < target){
+                count += (j-i);
+                i++;
+            }
+            else if(t < target){
+                i++;
+            }
+            else{
+                j--;
+            }
+        }
+        return count;
+    }
+}
+TC : nlog(n)
+SC : O(1)
+
+#################### LEETCODE  ###############
+
+class Solution {
+    public String shiftingLetters(String s, int[][] shifts) {
+        int n = s.length();
+        int[] preSum = new int[n + 1]; // Difference array for range updates
+
+        // Step 1: Apply shifts to the difference array
+        for (int[] shift : shifts) {
+            int start = shift[0];
+            int end = shift[1];
+            int direction = shift[2];
+
+            // Mark the start of the shift
+            preSum[start] += (direction == 1) ? 1 : -1;
+
+            // Mark the end of the shift + 1 to stop the range effect
+            if (end + 1 < n) {
+                preSum[end + 1] += (direction == 1) ? -1 : 1;
+            }
+        }
+
+        // Step 2: Compute cumulative sum for total shifts at each index
+        for (int i = 1; i < n; i++) {
+            preSum[i] += preSum[i - 1];
+        }
+
+        // Step 3: Build the result string with applied shifts
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            // Calculate the new character after applying the shift
+            int shift = preSum[i] % 26; // Handle wrap-around
+            if (shift < 0) shift += 26; // Convert negative shifts to positive
+            char newChar = (char) ('a' + (s.charAt(i) - 'a' + shift) % 26);
+            result.append(newChar);
+        }
+
+        return result.toString();
+    }
+}
+Time Complexity: 𝑂(𝑛+𝑚)
+Space Complexity: 𝑂(𝑛)
