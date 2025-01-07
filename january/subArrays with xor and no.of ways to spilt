@@ -1,0 +1,55 @@
+################  GFG  ##################
+
+class Solution {
+    public long subarrayXor(int arr[], int k) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        map.put(0,1);
+        int xor = 0;
+        int count = 0;
+        for(int a : arr){
+            xor ^= a;
+            if(map.containsKey(xor^k)){
+                count += map.get(xor^k);
+            }
+            if(map.containsKey(xor)){
+                map.put(xor,map.get(xor)+1);
+            }
+            else{
+                map.put(xor,1);
+            }
+            
+        }
+        return count;
+    }
+}
+Time Complexity: O(n)
+Space Complexity: 𝑂(𝑛)
+
+############# LEETCODE ###############
+
+class Solution {
+    public int waysToSplitArray(int[] nums) {
+        int n = nums.length;
+
+        // Calculate the total sum of the array
+        long totalSum = 0;
+        for (int num : nums) {
+            totalSum += num;
+        }
+
+        // Iterate through the array to check for valid splits
+        long prefixSum = 0;
+        int validSplits = 0;
+
+        for (int i = 0; i < n - 1; i++) { // i < n-1 ensures there's at least one element on the right
+            prefixSum += nums[i];
+            if (prefixSum >= (totalSum - prefixSum)) {
+                validSplits++;
+            }
+        }
+
+        return validSplits;
+    }
+}
+Time Complexity: O(n)
+Space Complexity: O(1)
