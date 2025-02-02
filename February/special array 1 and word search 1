@@ -1,0 +1,61 @@
+
+################# LEETCODE  ###############
+class Solution:
+    def isArraySpecial(self, nums: List[int]) -> bool:
+        if(len(nums)==1):
+            return True
+        
+        last_seen = nums[0]%2
+        for i in range(1,len(nums)):
+            current=nums[i]%2
+            if(current == last_seen):
+                return False
+            last_seen=current
+        return True      
+        TC - O(N)
+        SC - O(1)
+
+
+################## GFG ######################
+class Solution {
+    static int l,m,n;
+    static int[][] dir = {{0,1},{0,-1},{1,0},{-1,0}}; 
+    static boolean find(char[][] mat,int i, int j, String word,int idx){
+        if(idx >= l)return true;
+        
+        if(i < 0 || i >= m || j < 0 || j >= n || mat[i][j] != word.charAt(idx)){
+            return false;
+        }
+        char temp = mat[i][j];
+        mat[i][j] = 'N';
+        
+        for(int[] d : dir){
+            int i_ = i + d[0];
+            int j_ = j + d[1];
+            
+            if(find(mat,i_,j_,word,idx+1)){
+                return true;
+            }
+        }
+        mat[i][j] = temp;
+        return false;
+    }
+    static public boolean isWordExist(char[][] mat, String word) {
+        m = mat.length;
+        n = mat[0].length;
+        l = word.length();
+        
+        if(m*n < 1)return false;
+        for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+                if(mat[i][j] == word.charAt(0) && find(mat,i,j,word,0)){
+                    return true;
+            }
+        }
+        }
+        return false;
+        
+}
+}
+
+        
