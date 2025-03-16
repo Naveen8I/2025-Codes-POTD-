@@ -1,0 +1,65 @@
+class Solution {
+    static int minJumps(int[] arr) {
+        if (arr.length <= 1) return 0; // No jump needed
+        if (arr[0] == 0) return -1; // Can't move from start
+        
+        int l = 0, r = 0; // Current jump range
+        int jumps = 0; // Number of jumps
+        
+        while (r < arr.length - 1) { // Stop before last index
+            int farthest = 0;
+            for (int i = l; i <= r; i++) { // Check max reachable position
+                farthest = Math.max(farthest, i + arr[i]);
+            }
+
+            if (farthest <= r) return -1; // Can't move forward
+            
+            l = r + 1;
+            r = farthest;
+            jumps++;
+        }
+        
+        return jumps;
+    }
+}
+TC - O(N)
+SC - O(1)
+
+################################ LEETCODE ##############################
+class Solution {
+    boolean isPossible(long p,int[] ranks,int cars){
+        int rC = 0;
+        for (int rank : ranks) {
+            rC += (int) Math.sqrt(p / rank);
+            if (rC >= cars) return true; // Early stopping to optimize
+        }
+        return false;
+    }
+    public long repairCars(int[] ranks, int cars) {
+        long low = 1;
+        int max = ranks[0];
+
+        for (int i = 0; i < ranks.length; i++) {
+            if (ranks[i] > max) {
+                max = ranks[i];
+            }
+        }
+
+        long high = (long) max * cars * cars; // Ensure multiplication doesn't overflow
+
+        while (low <= high) {
+            long mid = low + (high - low) / 2;
+
+            if (isPossible(mid, ranks, cars)) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+
+        return low;
+    }
+}
+
+TC - O(Nlog(N))
+SC - O(1)
