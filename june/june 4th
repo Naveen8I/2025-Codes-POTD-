@@ -1,0 +1,59 @@
+LCS OF 3 Strings (GFG)
+https://www.geeksforgeeks.org/problems/lcs-of-three-strings0028/1
+Time Complexity: O(n * m * o)
+Space Complexity: O(n * m * o)
+class Solution {
+    int lcsOf3(String a, String b, String c) {
+        // code here
+        int n = a.length();
+        int m = b.length();
+        int o = c.length();
+
+        int[][][] dp = new int[n + 1][m + 1][o + 1];
+
+        // Build the 3D dp table
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                for (int k = 1; k <= o; k++) {
+                    if (a.charAt(i - 1) == b.charAt(j - 1) && b.charAt(j - 1) == c.charAt(k - 1)) {
+                        dp[i][j][k] = 1 + dp[i - 1][j - 1][k - 1];
+                    } else {
+                        dp[i][j][k] = Math.max(
+                            Math.max(dp[i - 1][j][k], dp[i][j - 1][k]),
+                            dp[i][j][k - 1]
+                        );
+                    }
+                }
+            }
+        }
+
+###################### LEETCODE ######################
+/T.C : O(n^2)
+//S.C : O(1)
+https://leetcode.com/problems/find-the-lexicographically-largest-string-from-the-box-i/
+class Solution {
+    public String answerString(String word, int numFriends) {
+       
+        String result = "";
+        int n = word.length();
+         if (numFriends == 1) {
+            return word;
+        }
+        int maxTake = n - numFriends + 1;
+        
+        for (int i = 0; i < n; i++) {
+            int take = Math.min(n - i, maxTake);
+            String s = word.substring(i, i + take);
+            if (s.compareTo(result) > 0) {
+                result = s;
+            }
+        }
+
+        return result;
+
+    }
+}
+
+        return dp[n][m][o];
+    }
+}
